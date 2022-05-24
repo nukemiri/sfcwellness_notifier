@@ -1,1 +1,8 @@
 beautifulsoup4 == 4.11.1
+requests
+os
+pickle
+pprint
+json
+pathlib
+datetime
