@@ -1,6 +1,7 @@
 requests
 os
-bs4pickle
+bs4
+pickle
 pprint
 json
 pathlib
