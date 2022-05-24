@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import config
 import os
 from bs4 import BeautifulSoup
 import pickle
@@ -17,12 +16,11 @@ empty_url = "https://wellness.sfc.keio.ac.jp/v3/index.php?page=reserve&limit=999
 session = requests.session()
 login_data = {
     'UTF-8': '✓',
-    'login': config.student_id,
-    'password': config.password,
+    'login': os.environ.get("CNS_LOGIN_ID"),
+    'password': os.environ.get("CNS_LOGIN_PASSWORD"),
     'submit':"login",
     "page":"top",
     "mode":"login",
-    "semester":"20220",
     }
 login = session.post(url, data=login_data)
 response = session.get(empty_url)
@@ -74,10 +72,10 @@ pprint(notify_list)
 
 if len(notify_list)>0:
     # 通知する
-    if config.discord_status:
+    if os.environ.get("WELLNESS_NOTIFIER_WEBHOOK_URL") != None:
         dt_now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
         for i in notify_list:
-            webhook_url  = config.webhook_url
+            webhook_url  = os.environ.get("WELLNESS_NOTIFIER_WEBHOOK_URL")
             main_content = {'content': f"""
 {i[0]}{i[1]}『{i[2]}』が予約可能になりました。
 場所:{i[6]} 強度:{i[8]} {i[9]} [{dt_now.strftime('%H:%M')}]

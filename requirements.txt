@@ -1,0 +1,7 @@
+requests
+os
+bs4pickle
+pprint
+json
+pathlib
+datetime
