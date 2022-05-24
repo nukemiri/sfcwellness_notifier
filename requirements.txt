@@ -1,8 +1,3 @@
-requests
-os
-bs4
-pickle
-pprint
-json
-pathlib
-datetime
+beautifulsoup4     4.11.1
+bs4                0.0.1
+requests           2.27.1
