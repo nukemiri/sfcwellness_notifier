@@ -9,7 +9,7 @@ from pprint import pprint
 import json
 from pathlib import Path
 import datetime
-# import tweepy
+import tweepy
 import config
 
 
@@ -76,14 +76,17 @@ if len(notify_list)>0:
     # 通知する
     dt_now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
 
-    # if config.ACCESS_TOKEN != "":
-    #         CK = config.CONSUMER_KEY
-    #         CS = config.CONSUMER_SECRET
-    #         AT = config.ACCESS_TOKEN
-    #         AS = config.ACCESS_TOKEN_SECRET
-    #         auth = tweepy.OAuthHandler(CK, CS)
-    #         auth.set_access_token(AT, AS)
-    #         api = tweepy.API(auth)
+    if config.ACCESS_TOKEN != "":
+        BT = config.BEARER_TOKEN
+        CK = config.CONSUMER_KEY
+        CS = config.CONSUMER_SECRET
+        AT = config.ACCESS_TOKEN
+        AS = config.ACCESS_TOKEN_SECRET
+        client = tweepy.Client(BT, CK, CS, AT, AS)
+
+        def create_tw(msg):
+            response = client.create_tweet(text=msg)
+
 
     for i in notify_list:
         message = f"""
@@ -97,6 +100,6 @@ https://wellness.sfc.keio.ac.jp/
             main_content = {'content': message}
             headers      = {'Content-Type': 'application/json'}
             response     = requests.post(webhook_url, json.dumps(main_content), headers=headers)
-        # if config.ACCESS_TOKEN != "":
-        #     api.update_status(message)
-    
+            
+        if config.ACCESS_TOKEN != "":
+            create_tw(message)
